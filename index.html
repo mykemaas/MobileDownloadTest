@@ -29,7 +29,16 @@
 
           <div class="row">
               <div class="col">
-                  <div id="share-state"></div>
+                  <div id="share-state"></div>                  
+              </div>
+          </div>
+
+          <div class="row show-if-enabled">
+              <div class="col">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="enable-share-api">
+                    <label class="custom-control-label" for="customCheck1">Enable Share API</label>
+                  </div>
               </div>
           </div>
       
@@ -46,22 +55,26 @@
 
         $("#img-download-link").on('click', function(e) {
             if(navigator.share) {
-                e.preventDefault();
-                e.stopPropagation();
+                if($("#enable-share-api").is(":checked")) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                navigator.share({
-                    title: "Developer Meme",
-                    url: 'https://mykemaas.github.io/MobileDownloadTest/img/the-two-states-of-every-programmer.jpg'
-                });
+                    navigator.share({
+                        title: "Developer Meme",
+                        url: 'https://mykemaas.github.io/MobileDownloadTest/img/the-two-states-of-every-programmer.jpg'
+                    });
 
-                return false;
+                    return false;
+                }
             }
             return true;
         });
 
         if(navigator.share) {
+            $(".show-if-enabled").show();
             $("#share-state").text("Web Share API is supported on this browser");
         } else {
+            $(".show-if-enabled").hide();
             $("#share-state").text("Web Share API is NOT supported on this browser");
         }
 
